@@ -18,10 +18,7 @@ import android.support.annotation.VisibleForTesting;
 import android.support.annotation.WorkerThread;
 import android.util.Log;
 
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.iid.FirebaseInstanceId;
-import com.google.firebase.iid.InstanceIdResult;
 import com.microsoft.appcenter.AbstractAppCenterService;
 import com.microsoft.appcenter.Flags;
 import com.microsoft.appcenter.channel.Channel;
@@ -510,23 +507,23 @@ public class Push extends AbstractAppCenterService {
         }
 
         /* Use the current API. */
-        try {
-            firebaseInstanceId.getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
-
-                @Override
-                public void onSuccess(InstanceIdResult instanceIdResult) {
-                    onTokenRefresh(instanceIdResult.getToken());
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    AppCenterLog.error(LOG_TAG, "Failed to register push.", e);
-                }
-            });
-        } catch (NoSuchMethodError e) {
+//        try {
+//            firebaseInstanceId.getInstanceId().addOnSuccessListener(new OnSuccessListener<InstanceIdResult>() {
+//
+//                @Override
+//                public void onSuccess(InstanceIdResult instanceIdResult) {
+//                    onTokenRefresh(instanceIdResult.getToken());
+//                }
+//            }).addOnFailureListener(new OnFailureListener() {
+//
+//                @Override
+//                public void onFailure(@NonNull Exception e) {
+//                    AppCenterLog.error(LOG_TAG, "Failed to register push.", e);
+//                }
+//            });
+//        } catch (NoSuchMethodError e) {
             onTokenRefresh(getToken(firebaseInstanceId));
-        }
+//        }
     }
 
     @SuppressWarnings("deprecation")

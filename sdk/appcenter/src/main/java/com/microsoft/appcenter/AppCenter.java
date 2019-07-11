@@ -451,6 +451,7 @@ public class AppCenter {
      * {@link #setUserId(String)} implementation at instance level.
      */
     private synchronized void setInstanceUserId(String userId) {
+        Log.d(LOG_TAG, "3677 setInstanceUserId " + userId + " thread: " + Thread.currentThread().getName());
         if (!mConfiguredFromApp) {
             AppCenterLog.error(LOG_TAG, "AppCenter must be configured from application, libraries cannot use call setUserId.");
             return;
@@ -834,6 +835,7 @@ public class AppCenter {
 
     @SafeVarargs
     private final synchronized void startServices(final boolean startFromApp, Class<? extends AppCenterService>... services) {
+        Log.d(LOG_TAG, "3677 startServices, thread: " + Thread.currentThread().getName());
         if (services == null) {
             AppCenterLog.error(LOG_TAG, "Cannot start services, services array is null. Failed to start services.");
             return;
@@ -868,6 +870,7 @@ public class AppCenter {
 
             @Override
             public void run() {
+                AppCenterLog.debug(LOG_TAG, "3677 finish start services, thread: " + Thread.currentThread().getName());
                 finishStartServices(updatedServices, startedServices, startFromApp);
             }
         });

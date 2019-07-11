@@ -8,6 +8,7 @@ package com.microsoft.appcenter.utils.context;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.microsoft.appcenter.utils.AppCenterLog;
 
@@ -154,6 +155,7 @@ public class UserIdContext {
      * @param userId user identifier.
      */
     public void setUserId(String userId) {
+        Log.d(LOG_TAG, "3677 UserIdContext.setUserId " + userId);
         if (!updateUserId(userId)) {
             return;
         }
