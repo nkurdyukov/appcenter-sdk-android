@@ -251,6 +251,9 @@ public class Push extends AbstractAppCenterService {
         PushInstallationLog log = new PushInstallationLog();
         log.setPushToken(pushToken);
         log.setUserId(userId);
+
+        Log.d(LOG_TAG, "3677 enqueuePushInstallationLog userId:" + userId + " stacktrace:" + Log.getStackTraceString(new Exception()));
+
         mChannel.enqueue(log, PUSH_GROUP, Flags.DEFAULTS);
     }
 
@@ -278,6 +281,7 @@ public class Push extends AbstractAppCenterService {
 
                 @Override
                 public void run() {
+                    AppCenterLog.debug(LOG_TAG, "3677 Push token refreshed: "+ pushToken);
                     enqueuePushInstallationLog(pushToken);
                 }
             });
@@ -334,6 +338,7 @@ public class Push extends AbstractAppCenterService {
             @Override
             public void onNewUser(String accountId) {
                 if (mLatestPushToken != null) {
+                    AppCenterLog.debug(LOG_TAG, "3677 onNewUser: "+ accountId);
                     enqueuePushInstallationLog(mLatestPushToken);
                 }
             }
@@ -343,6 +348,8 @@ public class Push extends AbstractAppCenterService {
             @Override
             public void onNewUserId(String userId) {
                 if (mLatestPushToken != null) {
+                    AppCenterLog.debug(LOG_TAG, "3677 onNewUserId: "+ userId);
+
                     enqueuePushInstallationLog(mLatestPushToken, userId);
                 }
             }
