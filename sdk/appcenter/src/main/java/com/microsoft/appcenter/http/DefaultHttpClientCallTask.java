@@ -21,6 +21,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -120,7 +121,7 @@ class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
         mCompressionEnabled = compressionEnabled;
     }
 
-    private static InputStream getInputStream(HttpsURLConnection httpsURLConnection) throws IOException {
+    private static InputStream getInputStream(HttpURLConnection httpsURLConnection) throws IOException {
         int status = httpsURLConnection.getResponseCode();
         if (status >= 200 && status < 400) {
             return httpsURLConnection.getInputStream();
@@ -144,7 +145,7 @@ class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     /**
      * Dump response stream to a string.
      */
-    private String readResponse(HttpsURLConnection httpsURLConnection) throws IOException {
+    private String readResponse(HttpURLConnection httpsURLConnection) throws IOException {
 
         /*
          * Though content length header value is less than actual payload length (gzip), we want to init
@@ -177,17 +178,17 @@ class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
     private Pair<String, Map<String, String>> doHttpCall() throws Exception {
 
         /* HTTP session. */
-        if (!mUrl.startsWith("https")) {
-            throw new IOException("App Center support only HTTPS connection.");
-        }
+//        if (!mUrl.startsWith("https")) {
+//            throw new IOException("App Center support only HTTPS connection.");
+//        }
         URL url = new URL(mUrl);
         URLConnection urlConnection = url.openConnection();
-        HttpsURLConnection httpsURLConnection;
-        if (urlConnection instanceof HttpsURLConnection) {
-            httpsURLConnection = (HttpsURLConnection) urlConnection;
-        } else {
-            throw new IOException("App Center supports only HTTPS connection.");
-        }
+        HttpURLConnection httpsURLConnection = (HttpURLConnection) urlConnection;
+//        if (urlConnection instanceof HttpsURLConnection) {
+//            httpsURLConnection = (HttpsURLConnection) urlConnection;
+//        } else {
+//            throw new IOException("App Center supports only HTTPS connection.");
+//        }
         try {
 
             /*
@@ -203,9 +204,9 @@ class DefaultHttpClientCallTask extends AsyncTask<Void, Void, Object> {
              * with API 21, so apply the rule to this API level as well.
              * See https://github.com/square/okhttp/issues/2372#issuecomment-244807676
              */
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
-                httpsURLConnection.setSSLSocketFactory(new TLS1_2SocketFactory());
-            }
+//            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP) {
+//                httpsURLConnection.setSSLSocketFactory(new TLS1_2SocketFactory());
+//            }
 
             /* Configure connection timeouts. */
             httpsURLConnection.setConnectTimeout(CONNECT_TIMEOUT);

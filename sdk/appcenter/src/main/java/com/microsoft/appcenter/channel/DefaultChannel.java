@@ -669,14 +669,14 @@ public class DefaultChannel implements Channel {
         }
 
         /* Check if disabled with discarding logs. */
-        if (mDiscardLogs) {
-            AppCenterLog.warn(LOG_TAG, "Channel is disabled, the log is discarded.");
-            if (groupState.mListener != null) {
-                groupState.mListener.onBeforeSending(log);
-                groupState.mListener.onFailure(log, new CancellationException());
-            }
-            return;
-        }
+//        if (mDiscardLogs) {
+//            AppCenterLog.warn(LOG_TAG, "Channel is disabled, the log is discarded.");
+//            if (groupState.mListener != null) {
+//                groupState.mListener.onBeforeSending(log);
+//                groupState.mListener.onFailure(log, new CancellationException());
+//            }
+//            return;
+//        }
 
         /* Call listeners so that they can decorate the log. */
         for (Listener listener : mListeners) {
@@ -750,11 +750,11 @@ public class DefaultChannel implements Channel {
             /* Increment counters and schedule ingestion if we are enabled. */
             groupState.mPendingLogCount++;
             AppCenterLog.debug(LOG_TAG, "enqueue(" + groupState.mName + ") pendingLogCount=" + groupState.mPendingLogCount);
-            if (mEnabled) {
+//            if (mEnabled) {
                 checkPendingLogs(groupState);
-            } else {
-                AppCenterLog.debug(LOG_TAG, "Channel is temporarily disabled, log was saved to disk.");
-            }
+//            } else {
+//                AppCenterLog.debug(LOG_TAG, "Channel is temporarily disabled, log was saved to disk.");
+//            }
         }
     }
 
@@ -769,21 +769,21 @@ public class DefaultChannel implements Channel {
                 groupState.mName, groupState.mPendingLogCount, groupState.mBatchTimeInterval));
         Long batchTimeInterval = resolveTriggerInterval(groupState);
 
-        /* Check if there is no need to trigger ingestion. */
-        if (batchTimeInterval == null || groupState.mPaused) {
-            return;
-        }
+//        /* Check if there is no need to trigger ingestion. */
+//        if (batchTimeInterval == null || groupState.mPaused) {
+//            return;
+//        }
 
         /* Trigger immediately. */
-        if (batchTimeInterval == 0) {
+//        if (batchTimeInterval == 0) {
             triggerIngestion(groupState);
-        }
+//        }
 
         /* Postpone triggering ingestion. */
-        else if (!groupState.mScheduled) {
-            groupState.mScheduled = true;
-            mAppCenterHandler.postDelayed(groupState.mRunnable, batchTimeInterval);
-        }
+//        else if (!groupState.mScheduled) {
+//            groupState.mScheduled = true;
+//            mAppCenterHandler.postDelayed(groupState.mRunnable, batchTimeInterval);
+//        }
     }
 
     /**
